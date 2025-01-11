@@ -5,6 +5,9 @@ on:
     types: [published]
     # This triggers whenever you publish a new release (with a tag).
 
+permissions:
+  contents: write
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
