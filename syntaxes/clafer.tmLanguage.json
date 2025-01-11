@@ -1,0 +1,65 @@
+{
+  "name": "Clafer",
+  "scopeName": "source.clafer",
+  "patterns": [
+    {
+      "name": "comment.line.double-slash.clafer",
+      "match": "//.*$"
+    },
+    {
+      "name": "comment.block.clafer",
+      "begin": "/\\*",
+      "end": "\\*/",
+      "patterns": [
+        {
+          "include": "#comments"
+        }
+      ]
+    },
+    {
+      "name": "string.quoted.double.clafer",
+      "begin": "\"",
+      "end": "(\"|$)",
+      "patterns": [
+        {
+          "name": "constant.character.escape.clafer",
+          "match": "\\\\."
+        }
+      ]
+    },
+    {
+      "name": "storage.type.clafer",
+      "match": "\\b(int|integer|string|real|clafer)\\b"
+    },
+    {
+      "name": "keyword.declaration.clafer",
+      "match": "\\b(abstract|enum|final|history|initial)\\b"
+    },
+    {
+      "name": "keyword.control.clafer",
+      "match": "\\b(xor|mux|or|all|lone|no|not|disj|one|some|else|finally|initially|this|in|opt|ref|parent|children|root)\\b"
+    },
+    {
+      "name": "constant.numeric.clafer",
+      "match": "\\b[-+]?\\d+\\b"
+    },
+    {
+      "name": "invalid.illegal.clafer",
+      "match": "(\\]->|\\]=>|\\]#>|-\\[|=\\[|#\\[)"
+    },
+    {
+      "name": "storage.type.cardinality.clafer",
+      "match": "\\b(\\d+\\.\\.\\d+|\\*\\.\\.\\*|\\?)\\b"
+    },
+    {
+      "name": "keyword.separator.clafer",
+      "match": "(\\.|=|#|->>|->|\\|\\||\\+\\+|!=|<:|:>|&&|>=|<=|=>|<=>|-->|==>|##>)"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": []
+    }
+  }
+}
+
