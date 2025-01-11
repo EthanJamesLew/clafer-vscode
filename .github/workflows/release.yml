@@ -1,0 +1,49 @@
+name: Release VSIX on GitHub
+
+on:
+  release:
+    types: [published]
+    # This triggers whenever you publish a new release (with a tag).
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm ci
+        # or npm install if you prefer
+
+      - name: Install vsce
+        run: npm install -g vsce
+
+      - name: Package extension
+        # By default, `vsce package` will create a file like `your-extension-name-x.y.z.vsix`
+        run: vsce package
+
+      - name: Find generated VSIX file
+        # We'll store the filename in an environment variable for convenience.
+        # By default, vsce name => package.json name => "myextension-0.0.1.vsix" etc.
+        # If you prefer a custom name, you can do: vsce package --out myextension.vsix
+        id: find_vsix
+        shell: bash
+        run: |
+          # Suppose there's only one vsix. We'll grab it by pattern:
+          VSIX_FILE=$(ls -1 *.vsix)
+          echo "VSIX_FILE=$VSIX_FILE" >> $GITHUB_OUTPUT
+
+      - name: Upload .vsix to release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ steps.find_vsix.outputs.VSIX_FILE }}
+          asset_name: ${{ steps.find_vsix.outputs.VSIX_FILE }}
+          asset_content_type: application/octet-stream
+
